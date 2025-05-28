@@ -1,5 +1,4 @@
-# TransGesture
-Toward Human Deictic Gesture Target Estimation
+# Toward Human Deictic Gesture Target Estimation
 
 ## Installation
 * Create a conda virtual env and activate it.
