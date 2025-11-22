@@ -62,7 +62,7 @@ python tools/eval_on_gesture_target.py --config_file ./configs/gesture_basefusio
   title={Toward Human Deictic Gesture Target Estimation},
   author={Cao, Xu and Virupaksha, Pranav and Lee, Sangmin and Lai, Bolin and Jia, Wenqi and Chen, Jintai and Rehg, James Matthew},
   booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems}
-  year=2025
+  year={2025}
 }
 ```
 
