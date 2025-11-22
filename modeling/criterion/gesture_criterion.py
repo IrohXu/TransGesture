@@ -46,14 +46,6 @@ class GestureCriterion(nn.Module):
         heatmap_loss = (
             self.heatmap_loss(pred_heatmap.squeeze(1), gt_heatmap) * self.heatmap_weight
         )
-        # heatmap_loss = torch.mean(heatmap_loss, dim=(-2, -1))
-        # heatmap_loss = torch.sum(heatmap_loss.reshape(-1) * gt_inout.reshape(-1))
-
-        # if heatmap_loss > 1e-7:
-        #     heatmap_loss = heatmap_loss / torch.sum(gt_inout)
-        #     loss_dict["regression loss"] = heatmap_loss
-        # else:
-        #     loss_dict["regression loss"] = heatmap_loss * 0
         
         loss_dict["regression loss"] = heatmap_loss
         

@@ -9,8 +9,8 @@ from torch.cuda import device_count
 
 num_gpu = device_count()
 ins_per_iter = 32
-len_dataset = 15317
-num_epoch = 50
+len_dataset = 17384
+num_epoch = 25
 # dataloader
 dataloader = dataloader.gesture_target
 dataloader.train.batch_size = ins_per_iter // num_gpu
@@ -32,7 +32,7 @@ train.checkpointer.max_to_keep = 3
 train.checkpointer.period = len_dataset // ins_per_iter
 train.seed = 0
 # optimizer
-optimizer.lr = 5e-4
+optimizer.lr = 1e-3
 optimizer.betas = (0.9, 0.99)
 lr_multiplier.scheduler.typ = "cosine"
 lr_multiplier.scheduler.start_value = 1
