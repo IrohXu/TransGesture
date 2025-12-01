@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Toward Human Deictic Gesture Target Estimation">
+  <meta name="keywords" content="social ai, gesture understanding, multimodal ai">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Toward Human Deictic Gesture Target Estimation</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.ico">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <style>
+    .pdf-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      border: none;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .pdf-embed {
+      width: 100%;
+      height: 400px;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-2 publication-title" style="display: flex; align-items: center; justify-content: center; gap: 15px;"><span>Toward Human Deictic Gesture Target Estimation</span></h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://www.irohxucao.com/" class="external-link"><span class="illini-blue">Xu Cao</span></a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://www.linkedin.com/in/pv5667/" class="external-link"><span class="illini-blue">Pranav Virupaksha</span></a><sup>2</sup>,</span>
+              <span class="author-block">
+                <a href="https://sites.google.com/view/sangmin-lee" class="external-link"><span class="illini-blue">Sangmin Lee</span></a><sup>3</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://bolinlai.github.io/" class="external-link"><span class="illini-blue">Bolin Lai</span></a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://vjwq.github.io/" class="external-link"><span class="illini-blue">Wenqi Jia</span></a><sup>1</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://whatashot.github.io/" class="external-link"><span class="illini-blue">Jintai Chen</span></a><sup>4</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://rehg.org/" class="external-link"><span class="illini-blue">James M. Rehg</span></a><sup>1</sup>,
+              </span>
+            </div>
+            <div class="is-size-5 publication-authors" style="margin-top: 10px;">
+              <div>
+                <span class="author-block"><sup>1</sup>University of Illinois Urbana-Champaign</span>,
+                <span class="author-block"><sup>2</sup>Georgia Institute of Technology</span>
+              </div>
+              <div>
+                <span class="author-block"><sup>3</sup>Korea University</span>,
+                <span class="author-block"><sup>4</sup>The Hong Kong University of Science and Technology (Guangzhou)</span>
+              </div>
+            </div>
+            
+            <div class="has-text-centered" style="margin: 10px 0;">
+              <img src="./static/images/u_logo.png" alt="Affiliation Logos" style="height: 80px;">
+            </div>
+
+            <div class="has-text-centered" style="margin: 5px 0;">
+              <span style="color: red; font-size: 1.7rem; font-weight: bold;">NeurIPS 2025</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://openreview.net/pdf?id=hio3T2OwHB" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://github.com/IrohXu/TransGesture" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <div class="content has-text-justified">
+          <span style="font-weight: bold;">TL;DR:</span> We investigate the novel task of human deictic gesture target estimation, contributing a large-scale, domain-specific dataset and accompanying Transformer-based architecture featuring joint cross-attention between gesture and gaze cues.
+        </div>
+        <div class="pdf-container">
+          <img src="./static/images/task.png" alt="Task Overview" style="width: 120%; border: none;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>Humans have a remarkable ability to use co-speech deictic gestures, such as pointing and showing, to enrich verbal communication and support social interaction.
+            These gestures are so fundamental that infants begin to use them even before they
+            acquire spoken language, which highlights their central role in human communication. Understanding the intended targets of another individual’s deictic gestures
+            enables inference of their intentions, comprehension of their current actions, and
+            prediction of upcoming behaviors. Despite its significance, gesture target estimation remains an underexplored task within the computer vision community. In
+            this paper, we introduce <span style="color:rgb(26,78,138); font-weight:bold;">GestureTarget</span>, a novel task designed specifically for
+            comprehensive evaluation of social deictic gesture semantic target estimation. To
+            address this task, we propose <span style="color:rgb(26,78,138); font-weight:bold;">TransGesture</span>, a set of Transformer-based gesture
+            target prediction models. Given an input image and the spatial location of a person,
+            our models predict the intended target of their gesture within the scene. Critically,
+            our gaze-aware joint cross attention fusion model demonstrates how incorporating
+            gaze-following cues significantly improves gesture target mask prediction IoU by
+            6% and gesture existence prediction accuracy by 10%. Our results underscore
+            the complexity and importance of integrating gaze cues into deictic gesture intention understanding, advocating for increased research attention to this emerging
+            area.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background-color:#dadada81">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <h2 class="title is-3">✅ Contributions</h2>
+          <div class="content has-text-justified">
+            <ul class="fa-ul">
+              <li><span class="fa-li"><i class="fa fa-check"></i></span><b>TransGesture</b>. A group of Transformer models that integrates human gesture and gaze social cues through a large-scale frozen visual encoder and applies joint cross attention fusion mechanisms to accurately infer gesture targets in complex visual scenes.</li>
+              <br>
+              <li><span class="fa-li"><i class="fa fa-check"></i></span><b>GestureTarget</b>. A new task and dataset designed for deictic gesture target estimation, containing about 20K annotated instances of pointing, reaching, showing, and giving gestures with corresponding target mask annotations.</li>
+              <br>
+              <li><span class="fa-li"><i class="fa fa-check"></i></span><b>Gaze Integration</b>. Incorporating gaze target estimation as an auxiliary modality can significantly improve understanding of deictic gesture targets, highlighting the importance of gaze as a critical cue in understanding nonverbal human communication.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <h2 class="title is-3">Framework Overview</h2>
+          <div class="content has-text-justified">
+            <div class="pdf-container">
+              <img src="./static/images/frameworkv3.png" alt="TransGesture Framework" style="width: 120%; border: none;">
+            </div>
+            <div class="horizontal-container">
+              <p>TransGesture Architecture Overview. We use frozen DINOv2 as a visual encoder and combine the resulting visual tokens with body and head patch encodings for the gesture and gaze decoders, respectively. We fuse the resulting gaze and gesture tokens via joint cross-attention and predict the target mask. The gesture decoder also predicts gesture existence.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <h2 class="title is-3">Qualitative Results</h2>
+          <div class="content has-text-justified">
+            <div class="pdf-container">
+              <img src="./static/images/visualization.png" alt="Qualitative Evaluation of Different Fusion Strategies" style="width: 120%; border: none;">
+            </div>
+            <div class="horizontal-container">
+              <p> Qualitative examples of gesture target estimation under different fusion strategies. <span style="color: green;">Green bounding boxes</span> indicate the gesture initiator, and <span style="color: red;">red masks</span> show the predicted target person.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <h2 class="title is-3">Quantitative Results</h2>
+          <div class="content has-text-justified">
+            <p>We conduct comprehensive evaluations on gesture existence prediction accuracy and target mask prediction IoU. We comparing different fusion strategies and visual encoders and include human baselines for context.</p>
+            <div class="pdf-container" style="width: 65%; margin: 0 auto;">
+              <img src="./static/images/quantitative_results.png" alt="Comparison Results" style="width: 100%; border: none;">
+            </div>
+            <p> Exploring the influence of CLIP/SigLIP-based visual encoder and DINOv2 in gesture target
+            estimation with different gaze and gesture feature fusion strategies. With all four visual encoders, our proposed <b>Gesture-Gaze Joint Cross-Attention</b> strategy performs the best, underscoring the importance of gaze cues. In human baselines, we compare the average human performance and the maximum human performance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column">
+          <h2 class="title is-3">Additional Ablations & Results</h2>
+          <p class="has-text-justified" style="padding-bottom:30px;">
+            We qualitatively compare token-affinity map visualization for CLIP, SigLIP, SigLIP2, and DINOv2.
+          </p>
+          <div style="text-align: center; padding: 0 0 30px 0;">
+            <div class="pdf-container" style="width: 80%; margin: 0 auto;">
+              <img src="./static/images/visualization_affinity_map.png" alt="Token-Wise Affinity Map Comparison" style="width: 100%; border: none;">
+            </div>
+            <p class="has-text-justified" style="margin-top: 20px;">
+              DINOv2 achieves the strongest performance on our task. DINOv2 preserves notably stronger intra-instance token affinity, resulting in more coherent and spatially structured representations. In contrast, CLIP- and SigLIP-based models exhibit weaker spatial coherence, indicating limitations in modeling spatial relationships in complex social scenes involving multiple humans.
+            </p>
+          </div>
+
+          <div style="text-align: center; padding: 0 0 20px 0;">
+            <div class="pdf-container" style="width: 80%; margin: 0 auto;">
+              <img src="./static/images/visual_enc_scale.png" alt="Visual Encoder Scale Ablation" style="width: 100%; border: none;">
+            </div>
+            <p class="has-text-justified" style="margin-top: 20px;">
+            </p>
+          </div>
+
+          <div style="text-align: center; padding: 0 0 20px 0;">
+            <div class="pdf-container" style="width: 80%; margin: 0 auto;">
+              <img src="./static/images/frozen_impact.png" alt="Impact of Freezing Different Modules" style="width: 100%; border: none;">
+            </div>
+            <p class="has-text-justified" style="margin-top: 20px;">
+              We furthermore run ablations on the scale of visual encoders, along with the impact of freezing different parts of our architecture.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@inproceedings{cao2025toward,
+  title={Toward Human Deictic Gesture Target Estimation},
+  author={Cao, Xu and Virupaksha, Pranav and Lee, Sangmin and Lai, Bolin and Jia, Wenqi and Chen, Jintai and Rehg, James Matthew},
+  booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems},
+  year={2025}
+}</code></pre>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <a class="icon-link" href="#">
+          <i class="fas fa-file-pdf"></i>
+        </a>
+        <a class="icon-link" href="https://github.com/PLAN-Lab" class="external-link" disabled>
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              Pranav Virupaksha bulit this webpage. It is built upon the work of <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>,
+              made available under the <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>. 
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer> 
+</body>
+
+</html>
