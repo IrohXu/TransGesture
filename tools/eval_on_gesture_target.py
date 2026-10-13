@@ -6,7 +6,7 @@ import torch
 import numpy as np
 from PIL import Image
 from detectron2.config import instantiate, LazyConfig
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
 from sklearn.metrics import average_precision_score
 
 sys.path.append(osp.dirname(osp.dirname(__file__)))
@@ -108,6 +108,7 @@ def do_test(cfg, model):
     model.train(False)
     # iou_single = []
     iou = []
+    iou_pos = []
     AP_mask = []
     AUC = []
     exist_pred_list = []
@@ -158,7 +159,6 @@ def do_test(cfg, model):
                 # )
                 
                 gt_mask = ground_truth[b_i].cpu().detach().numpy()
-                gt_mask = gt_mask.transpose(1, 0)
                                 
                 if np.sum(gt_mask) > 0:                
                     AP_mask.append(
@@ -172,15 +172,20 @@ def do_test(cfg, model):
                 #     iou.append(calculate_multiclass_miou(scaled_heatmap, gt_mask)[0])
                                 
                 iou.append(calculate_multiclass_miou(scaled_heatmap, gt_mask, ignore_index=0)[0])
+                if np.sum(gt_mask) > 0:
+                    iou_pos.append(iou[-1])
                 
                 
     print_model_size(model)
-    print("| Exist Acc | mIoU | AP_mask |")
+    print("| Exist Acc | Exist F1 | mIoU | mIoU_pos | AP_mask | N |")
     print(
-        "|  {:.4f}   |{:.4f}| {:.4f}  |".format(
+        "|  {:.4f}   |  {:.4f}  |{:.4f}|  {:.4f}  | {:.4f}  | {} |".format(
             accuracy_score(exist_gt_list, exist_pred_list),
+            f1_score(exist_gt_list, exist_pred_list),
             torch.mean(torch.tensor(iou)),
-            torch.mean(torch.tensor(AP_mask)), 
+            torch.mean(torch.tensor(iou_pos)),
+            torch.mean(torch.tensor(AP_mask)),
+            len(iou),
         )
     )
 

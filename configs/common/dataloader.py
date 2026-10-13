@@ -9,7 +9,7 @@ from torch.utils.data.distributed import DistributedSampler
 
 from data import *
 
-DATA_ROOT = ""
+DATA_ROOT = "/projects/illinois/eng/cs/jrehg/users/xucao2/neurips25"
 # DATA_ROOT = "${Root to Datasets}"
 if DATA_ROOT == "${Root to Datasets}":
     raise Exception(
@@ -132,8 +132,6 @@ def __build_dataloader(
 
     datasets = {
         "gazefollow": GazeFollow,
-        "video_attention_target": VideoAttentionTarget,
-        "video_attention_target_video": VideoAttentionTargetVideo,
     }
     dataset = L(datasets[name])(
         image_root=data_info[name]["train_root" if is_train else "val_root"],
@@ -167,9 +165,6 @@ def __build_dataloader(
             else None
         ),
     )
-    if name == "video_attention_target_video":
-        dataset.seq_len = data_info.seq_len
-        dataset.max_len = data_info.max_len
     dataset = instantiate(dataset)
 
     return DataLoader(
@@ -178,7 +173,6 @@ def __build_dataloader(
         num_workers=num_workers,
         pin_memory=pin_memory,
         persistent_workers=persistent_workers,
-        collate_fn=video_collate if name == "video_attention_target_video" else None,
         sampler=DistributedSampler(dataset, shuffle=is_train) if distributed else None,
         drop_last=drop_last,
     )

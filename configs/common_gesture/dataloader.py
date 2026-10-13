@@ -5,12 +5,13 @@ from omegaconf import OmegaConf
 from detectron2.config import LazyCall as L
 from detectron2.config import instantiate
 from torch.utils.data import DataLoader
-from torch.utils.data.distributed import DistributedSampler
-import random
+from torch.utils.data import Sampler
+from detectron2.utils import comm
+import torch
 
 from data import *
 
-DATA_ROOT = ""
+DATA_ROOT = "/projects/illinois/eng/cs/jrehg/users/xucao2/neurips25/GestureTarget2"
 # DATA_ROOT = "${Root to Datasets}"
 if DATA_ROOT == "${Root to Datasets}":
     raise Exception(
@@ -58,44 +59,39 @@ data_info.seq_len = 16
 data_info.max_len = 32
 
 
-class BalancedBatchSampler(DistributedSampler):
-    def __init__(self, dataset, labels=None):
-        self.labels = labels
-        self.dataset = dict()
-        self.balanced_max = 0
-        # Save all the indices for all the classes
-        for idx in range(0, len(dataset)):
-            label = self._get_label(dataset, idx)
-            if label not in self.dataset:
-                self.dataset[label] = list()
-            self.dataset[label].append(idx)
-            self.balanced_max = len(self.dataset[label]) \
-                if len(self.dataset[label]) > self.balanced_max else self.balanced_max
-        
-        # Oversample the classes with fewer elements than the max
-        for label in self.dataset:
-            while len(self.dataset[label]) < self.balanced_max:
-                self.dataset[label].append(random.choice(self.dataset[label]))
-        self.keys = list(self.dataset.keys())
-        self.currentkey = 0
-        self.indices = [-1]*len(self.keys)
+class BalancedBatchSampler(Sampler):
+
+    def __init__(self, dataset, labels=None, seed=0):
+        if labels is None:
+            raise Exception("You should pass the tensor of labels to the constructor as second argument")
+        self.seed = seed
+        self.epoch = 0
+        self.num_replicas = comm.get_world_size()
+        self.rank = comm.get_rank()
+        self.class_indices = [
+            torch.nonzero(labels == c, as_tuple=True)[0] for c in torch.unique(labels)
+        ]
+        self.balanced_max = max(len(idx) for idx in self.class_indices)
+        self.total_size = self.balanced_max * len(self.class_indices)
+        self.num_samples = self.total_size // self.num_replicas
 
     def __iter__(self):
-        while self.indices[self.currentkey] < self.balanced_max - 1:
-            self.indices[self.currentkey] += 1
-            yield self.dataset[self.keys[self.currentkey]][self.indices[self.currentkey]]
-            self.currentkey = (self.currentkey + 1) % len(self.keys)
-        self.indices = [-1]*len(self.keys)
-    
-    def _get_label(self, dataset, idx, labels = None):
-        if self.labels is not None:
-            return self.labels[idx].item()
-        else:
-            # Trying guessing
-            raise Exception("You should pass the tensor of labels to the constructor as second argument")
+        g = torch.Generator()
+        g.manual_seed(self.seed + self.epoch)
+        self.epoch += 1
+        per_class = []
+        for idx in self.class_indices:
+            idx = idx[torch.randperm(len(idx), generator=g)]
+            extra = self.balanced_max - len(idx)
+            if extra > 0:
+                idx = torch.cat([idx, idx[torch.randint(len(idx), (extra,), generator=g)]])
+            per_class.append(idx)
+        indices = torch.stack(per_class, dim=1).reshape(-1)
+        indices = indices[self.rank : self.num_samples * self.num_replicas : self.num_replicas]
+        return iter(indices.tolist())
 
     def __len__(self):
-        return self.balanced_max*len(self.keys)
+        return self.num_samples
 
 
 # Dataloader(gazefollow/video_atention_target, train/val)
@@ -155,9 +151,9 @@ def __build_dataloader(
         pin_memory=pin_memory,
         persistent_workers=persistent_workers,
         collate_fn=None,
-        # sampler=DistributedSampler(dataset, shuffle=is_train) if distributed else None,
-        sampler=BalancedBatchSampler(dataset, labels=dataset.labels),
-        drop_last=drop_last,
+        sampler=BalancedBatchSampler(dataset, labels=dataset.labels) if is_train else None,
+        shuffle=False,
+        drop_last=drop_last if is_train else False,
     )
 
 

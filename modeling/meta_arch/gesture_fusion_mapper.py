@@ -120,7 +120,13 @@ class GestureFusionMapper(nn.Module):
                 # nn.Sigmoid()
             )
             self.inout_token = nn.Embedding(1, self.gaze_dim)
-        
+
+        if freeze_gaze_branch:
+            for head in [self.heatmap_head, getattr(self, "inout_head", None)]:
+                if head is not None:
+                    for param in head.parameters():
+                        param.requires_grad = False
+
         # if self.inout:
         #     self.gesture_inout_head = nn.Sequential(
         #         nn.Linear(self.dim, 128),
@@ -218,7 +224,7 @@ class GestureFusionMapper(nn.Module):
         # feats = torch.cat([feats_gaze, feats_gesture], dim=1)
         # feats = self.heatmap_head(feats)
         
-        feats_out = self.fusion(feats_gaze, feats_gesture)
+        feats_out = self.fusion(x_gesture=feats_gesture, x_gaze=feats_gaze)
         
         # feats = self.heatmap_head(feats).squeeze(dim=1)
         feats_out = torchvision.transforms.functional.resize(feats_out, self.out_size)
@@ -300,7 +306,7 @@ class GestureFusionMapper(nn.Module):
             exist_preds = self.gesture_exist_head(exist_tokens).squeeze(dim=-1)
             feats_gesture = feats_gesture[:, 1:, :]
         
-        feats_out = self.fusion(feats_gaze, feats_gesture)
+        feats_out = self.fusion(x_gesture=feats_gesture, x_gaze=feats_gaze)
         
         feats_out = torchvision.transforms.functional.resize(feats_out, self.out_size)
         heatmap_preds = feats_out
@@ -362,7 +368,7 @@ class GestureFusionMapper(nn.Module):
             exist_preds = self.gesture_exist_head(exist_tokens).squeeze(dim=-1)
             feats_gesture = feats_gesture[:, 1:, :]
         
-        feats_out = self.fusion(feats_gaze, feats_gesture)
+        feats_out = self.fusion(x_gesture=feats_gesture, x_gaze=feats_gaze)
         
         feats_out = torchvision.transforms.functional.resize(feats_out, self.out_size)
         heatmap_preds = feats_out

@@ -229,10 +229,10 @@ class GestureTarget(Dataset):
             target_heatmap[target_mask[0] > 0] = 1.0
         else:
             target_heatmap = torch.zeros(
-                width, height
+                height, width
             )
             target_mask = TF.to_tensor(
-                TF.resize(target_mask, (width, height))
+                TF.resize(target_mask, (height, width))
             )
             target_heatmap[target_mask[0] > 0] = 1.0
             

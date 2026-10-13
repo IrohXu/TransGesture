@@ -14,5 +14,5 @@ model.fusion = L(fusion.build_fusion_module)(
     num_layers=3
 )
 
-model.criterion = L(criterion.GestureFMCriterion)()
+model.criterion = L(criterion.GestureCriterion)()
 model.device = "cuda"

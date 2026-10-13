@@ -6,5 +6,5 @@ model = L(meta_arch.GestureBaselineMapper)()
 model.backbone = L(backbone.build_backbone)(
     name="small"
 )
-model.criterion = L(criterion.GestureFMCriterion)()
+model.criterion = L(criterion.GestureCriterion)()
 model.device = "cuda"

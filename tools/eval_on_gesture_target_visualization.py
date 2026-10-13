@@ -159,7 +159,6 @@ def do_test(cfg, model, visualization_dir):
                 )
                 
                 gt_mask = ground_truth[b_i].cpu().detach().numpy()
-                gt_mask = gt_mask.transpose(1, 0)
                                 
                 if np.sum(gt_mask) > 0:                
                     AP_mask.append(

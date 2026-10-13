@@ -4,6 +4,7 @@ from typing import Literal, Union, Iterable
 from functools import partial
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from detectron2.modeling import Backbone
 
 try:
@@ -179,9 +180,7 @@ class CrossAttention(nn.Module):
         k = self.linear_k(y).view(B, L_y, self.num_heads, -1).transpose(1, 2)
         v = self.linear_v(y).view(B, L_y, self.num_heads, -1).transpose(1, 2)
 
-        attn = (q * self.scale) @ k.transpose(-2, -1)
-        attn = attn.softmax(dim=-1)
-        x = attn @ v
+        x = F.scaled_dot_product_attention(q, k, v, scale=self.scale)
 
         x = x.view(B, self.num_heads, L, -1).permute(0, 2, 1, 3).reshape(B, L, -1)
         x = self.proj(x)

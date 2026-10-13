@@ -7,9 +7,9 @@ from os.path import join, basename
 from torch.cuda import device_count
 
 
-num_gpu = device_count()
+num_gpu = max(device_count(), 1)
 ins_per_iter = 32
-len_dataset = 17384
+len_dataset = 15317
 num_epoch = 25
 # dataloader
 dataloader = dataloader.gesture_target
@@ -21,7 +21,7 @@ dataloader.train.rand_lsj = 0.5
 model.image_size = dataloader.train.input_size = dataloader.val.input_size = 518
 model.output_size = dataloader.train.output_size = dataloader.val.output_size = 128
 
-dataloader.val.batch_size = 32
+dataloader.val.batch_size = 1
 dataloader.val.distributed = False
 # train
 train.init_checkpoint = "./output/gazefollow_vit_small/model_final.pth"
@@ -41,7 +41,7 @@ lr_multiplier.warmup_length = 1e-2
 # model
 model.backbone.name = "dinov2_small"
 model.backbone.return_softmax_attn = True
-model.backbone.out_attn = [2, 5, 8, 11]
+model.backbone.out_attn = []
 model.backbone.use_cls_token = True
 model.backbone.use_mask_token = True
 model.criterion.use_focal_loss = True

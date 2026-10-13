@@ -1,2 +1,2 @@
-from .gaze_modeling_mapper import GazeModelingMapper
+from .gaze_modeling_mapper import GazeModelMapper
 from .gesture_fusion_mapper import GestureFusionMapper

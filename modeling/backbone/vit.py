@@ -405,9 +405,10 @@ class ViT(Backbone):
         x = self.norm(x)
 
         outputs = {}
-        outputs["attention_maps"] = torch.cat(attn_maps, dim=1).reshape(
-            B, -1, H * W, H, W
-        )
+        if attn_maps:
+            outputs["attention_maps"] = torch.cat(attn_maps, dim=1).reshape(
+                B, -1, H * W, H, W
+            )
         if self._out_features:
             outputs["last_feat"] = (
                 x[:, self.patch_token_offset : extra_tokens_offset]
